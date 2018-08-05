@@ -11,6 +11,24 @@
   <!-- Site Properties -->
   <title>Homepage - Semantic</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css">
+
+  <script type="text/javascript">
+    function draw(data) {
+      "use strict";
+      var svg = d3.select('#corrected-visualisation')
+        .append("svg")
+          .attr("preserveAspectRatio", "xMinYMin meet")
+          .attr("viewBox", "-200 0 900 900")
+          .classed("svg-content", true);
+
+      var myChart = new dimple.chart(svg, data);
+      var x = myChart.addCategoryAxis("x","company");
+      var y = myChart.addLogAxis("y","transactions_per_second");
+      myChart.addSeries(null,dimple.plot.bar);
+      myChart.draw()
+    }
+  </script>
+
 </head>
 <body>
 
@@ -32,12 +50,20 @@
           <img class="ui image" src="assets/crypto_transactions_comparison.jpg">
         </div>
         <div class="column" id="corrected-visualisation">
-          <h2 class="ui header">New Visualisation</h3>
+          <h2 class="ui header">New Visualisation</h2>
+          <h3>Transaction speeds for various payment methods</h3>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  /*
+    Load csv file
+    */
+  d3.csv("lib/transaction_per_second.csv", draw);
+  </script>
 
 </body>
 
