@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+  <style>
+    circle.dimple-series-1 {
+      fill:red;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
     <script type="text/javascript">
       function draw(data) {
       
@@ -17,6 +25,12 @@
               height = 600 - margin;
 
           debugger;
+
+          var title = d3.select("body")
+            .append("h2")
+            .text("World Cup Attendance");
+
+
           var svg = d3.select("body")
             .append("svg")
               .attr("width", width + margin)
