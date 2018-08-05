@@ -80,3 +80,9 @@ And you can create a plethora of other charts by combining these common componen
 - https://www.science-craft.com/2014/07/08/introducing-the-grammar-of-graphics-plotting-concept/
 - http://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf
 - https://ramnathv.github.io/pycon2014-r/visualize/ggplot2.html
+
+## EDA (Exploratory Data Analysis) vs Sketching
+
+| EDA | Sketching |
+|-----|-----------|
+| - insights<br>-two |  |
