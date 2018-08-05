@@ -85,4 +85,5 @@ And you can create a plethora of other charts by combining these common componen
 
 | EDA | Sketching |
 |-----|-----------|
-| - insights<br>-two |  |
+| - finding insights<br>- investigating erroneus values<br>- reviewing data \
+structure<br>- audience: yourself | - exploring visual layout<br>-  exploring visual encodings<br>- audience: others |
