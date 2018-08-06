@@ -94,5 +94,6 @@ And you can create a plethora of other charts by combining these common componen
 
 ## Narrative Structures
 |  | Quantitative (qT) v Qualitative (qL) |  |
+|----|----|----|
 | Rigourous and Empirical (RE) v Anecdotal & Ad-hoc (AA) | qT & RE<br>fivethirtyeight.com | qL & RE<br>Washington Post |
 |  | qT & AA<br>Sports writers | qL & AA<br>Op-Ed |
