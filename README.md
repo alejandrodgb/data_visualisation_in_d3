@@ -93,7 +93,26 @@ And you can create a plethora of other charts by combining these common componen
 - Part 3: http://dataremixed.com/2012/06/clarity-or-aesthetics-part-3-tips-for-achieving-both/
 
 ## Narrative Structures
-|  | Quantitative (qT) v Qualitative (qL) |  |
-|----|----|----|
-| Rigourous and Empirical (RE) v Anecdotal & Ad-hoc (AA) | qT & RE<br>fivethirtyeight.com | qL & RE<br>Washington Post |
-|  | qT & AA<br>Sports writers | qL & AA<br>Op-Ed |
+<style>
+td {
+  border-right: solid 0.5px; 
+  border-left: solid 0.5px;
+}
+</style>
+<table>
+    <tbody>
+        <tr>
+            <td></td>
+            <td colspan=2>Quantitative (qT) vs Qualitative (qL)</td>
+        </tr>
+        <tr>
+            <td rowspan=2 border-right=solid 1px>Rigourous & Empirical (RE)<br>vs<br>Anecdotal & Ad-hoc (AA)</td>
+            <td>qT & RE<br>Example: fivethirtyeight.com</td>
+            <td>qL & RE<br>Example: Washington Post</td>
+        </tr>
+        <tr>
+            <td>qT & AA<br>Example: Sports writers</td>
+            <td>qL & AA<br>Example: Op-Ed</td>
+        </tr>
+    </tbody>
+</table>
