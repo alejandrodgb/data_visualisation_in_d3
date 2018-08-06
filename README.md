@@ -93,12 +93,6 @@ And you can create a plethora of other charts by combining these common componen
 - Part 3: http://dataremixed.com/2012/06/clarity-or-aesthetics-part-3-tips-for-achieving-both/
 
 ## Narrative Structures
-<style>
-td {
-  border-right: solid 0.5px; 
-  border-left: solid 0.5px;
-}
-</style>
 <table>
     <tbody>
         <tr>
