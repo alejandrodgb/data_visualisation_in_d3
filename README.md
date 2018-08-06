@@ -91,3 +91,8 @@ And you can create a plethora of other charts by combining these common componen
 - Part 1: http://dataremixed.com/2012/05/data-visualization-clarity-or-aesthetics/
 - Part 2: http://dataremixed.com/2012/05/clarity-or-aesthetics-part-2-a-tale-of-four-quadrants/
 - Part 3: http://dataremixed.com/2012/06/clarity-or-aesthetics-part-3-tips-for-achieving-both/
+
+## Narrative Structures
+|  | Quantitative (qT) v Qualitative (qL) |  |
+| Rigourous and Empirical (RE) v Anecdotal & Ad-hoc (AA) | qT & RE<br>fivethirtyeight.com | qL & RE<br>Washington Post |
+|  | qT & AA<br>Sports writers | qL & AA<br>Op-Ed |
