@@ -86,3 +86,8 @@ And you can create a plethora of other charts by combining these common componen
 | EDA | Sketching |
 |-----|-----------|
 | - finding insights<br>- investigating erroneus values<br>- reviewing data structure<br>- audience: yourself | - exploring visual layout<br>-  exploring visual encodings<br>- audience: others |
+
+## Data visualisation: data or aesthetics
+- Part 1: http://dataremixed.com/2012/05/data-visualization-clarity-or-aesthetics/
+- Part 2: http://dataremixed.com/2012/05/clarity-or-aesthetics-part-2-a-tale-of-four-quadrants/
+- Part 3: http://dataremixed.com/2012/06/clarity-or-aesthetics-part-3-tips-for-achieving-both/
