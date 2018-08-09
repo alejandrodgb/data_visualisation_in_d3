@@ -7,6 +7,7 @@
 - https://apandre.files.wordpress.com/2011/02/chartchooserincolor.jpg
 - http://www.perceptualedge.com/images/Effective_Chart_Design.pdf
 - http://www.infovis.net/printMag.php?num=179&lang=2
+- http://www.perceptualedge.com/articles/visual_business_intelligence/save_the_pies_for_dessert.pdf
 
 ## Visual perception
 - http://www.perceptualedge.com/articles/ie/visual_perception.pdf
@@ -93,6 +94,7 @@ And you can create a plethora of other charts by combining these common componen
 - Part 3: http://dataremixed.com/2012/06/clarity-or-aesthetics-part-3-tips-for-achieving-both/
 
 ## Narrative Structures
+### Types of journalism
 <table>
     <tbody>
         <tr>
@@ -110,3 +112,12 @@ And you can create a plethora of other charts by combining these common componen
         </tr>
     </tbody>
 </table>
+
+### Types of structures
+- Author driven: normally linear, with key points highlighted by author
+- Viewer driven: open and interactive
+- Martini glass: narrow at the start, openin and interactive at the end.
+
+### Correlation v Causation
+- http://www.tylervigen.com/spurious-correlations
+- https://en.wikipedia.org/wiki/Correlation_does_not_imply_causation#Examples_of_illogically_inferring_causation_from_correlation
