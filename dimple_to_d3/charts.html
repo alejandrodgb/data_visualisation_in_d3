@@ -6,12 +6,36 @@
     <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
     
     <style>
-      circle.dimple-series-1 {
-        fill: red;
+      h2 {
+        color: black;
+        text-align: center;
       }
 
-      h2 {
-        text-align: center;
+      .axis {
+        font-family: arial;
+        font-size: 0.6em;
+      }
+
+      path {
+        fill: none;
+        stroke: black;
+        stroke-width: 2px;
+      }
+
+      .tick {
+        fill: none;
+        stroke: black;
+      }
+
+      circle {
+        opacity: 0.4;
+        stroke: none;
+      }
+      
+      .line_plot {
+        fill: none;
+        stroke: #4eb0bb;
+        stroke-width: 1px;
       }
     </style>
 
@@ -26,6 +50,11 @@
           var margin = 75,
               width = 1400 - margin,
               height = 600 - margin;
+          
+          var other_radius = 2,
+              home_radius = 5,
+              home_colour = 'red',
+              other_colour = 'blue';
 
           d3.select("body")
             .append("h2")
@@ -42,15 +71,120 @@
         Dimple.js Chart construction code
       */
 
-          var myChart = new dimple.chart(svg, data);
-          var x = myChart.addTimeAxis("x", "year"); 
-          myChart.addMeasureAxis("y", "attendance");
-          x.dateParseFormat = "%Y";
-          x.tickFormat = "%Y";
-          x.timeInterval = 4;
-          myChart.addSeries(null, dimple.plot.line);
-          myChart.addSeries(null, dimple.plot.scatter);
-          myChart.draw();
+          // replacing dimple construct to d3 var myChart = new dimple.chart(svg, data);
+          // constructing the chart
+          d3.select('svg')
+            .selectAll('circle')
+            .data(data)
+            .enter()
+            .append("circle");
+
+          // x axis range
+          var time_range = d3.extent(data, function (d) {
+            return d['date'];       
+          });
+
+          // y axis range
+          var count_range = d3.extent(data, function (d) {
+            return d['attendance'];
+          });
+          
+          // create x axis mapping of values to pixels - this returns a
+          // function that will map values to pixels
+          var time_map = d3.time.scale()
+            .range([margin, width])
+            .domain(time_range);
+          
+          // create y axis mapping of values to pixels - this returns a 
+         // function that will map values to pixels 
+          var count_map = d3.scale.linear()
+            .range([height, margin])
+            .domain(count_range);
+
+
+          // create x axis
+          var time_axis = d3.svg.axis()
+            .scale(time_map)
+            .ticks(d3.time.years,2);
+
+          // create y axis
+          var count_axis = d3.svg.axis()
+            .scale(count_map)
+            .orient('left');
+          
+          // add x axis to page
+          d3.select('svg')
+            .append('g')
+            .attr('class','x axis')
+            .attr('transform','translate(0,'+ height +')')
+            .call(time_axis);
+
+          // add y axis to page
+          d3.select('svg')
+            .append('g')
+            .attr('class','y axis')
+            .attr('transform','translate('+ margin +',0)')
+            .call(count_axis);
+
+          d3.selectAll('circle')
+            .attr('cx',function(d){
+              return time_map(d['date']);
+            })
+            .attr('cy',function(d){
+              return count_map(d['attendance']);
+            })
+            .attr('r',function(d){
+              if(d['team1']==d['home'] || d['team2']==d['home']){
+                return home_radius;
+              } else {
+                return other_radius;
+              }
+            })
+            .attr('fill',function (d){
+              if(d['team1']==d['home'] || d['team2']==d['home']){
+                return home_colour;
+              } else {
+                return other_colour;
+              }
+            });
+
+          // creating a label for the graph
+          var legend = svg.append('g')
+            .attr('class','legend')
+            .attr("transform", "translate(" + (width - 100) + "," + 20 + ")")
+            .selectAll('g')
+            .data(['Home Team', 'Others'])
+            .enter().append('g');
+
+          // apending circles to the legend
+          legend.append('circle')
+            .attr('cy',function(d,i){
+              return i * 30;
+            })
+            .attr('r',function(d){
+              if(d=='Home Team'){
+                return home_radius;
+              } else {
+                return other_radius;
+              }
+            })
+            .attr('fill',function (d){
+              if(d=='Home Team'){
+                return home_colour;
+              } else {
+                return other_colour;
+              }
+            });
+
+          // appending text to the legend
+          legend.append('text')
+            .attr('y',function (d,i){
+              return i * 30 + 5;
+            })
+            .attr('x',home_radius + 5)
+            .text(function (d){
+              return d;
+            });
         };
 
     </script>
@@ -61,7 +195,13 @@
     Use D3 (not dimple.js) to load the TSV file
     and pass the contents of it to the draw function
     */
-  d3.tsv("world_cup.tsv", draw);
+  
+    format = d3.time.format("%d-%m-%Y (%H:%M h)");
+    d3.tsv("../Data_Vis_Complete_Code_Files/lesson3/world_cup_geo.tsv", function (d) {
+      d['date'] = format.parse(d['date']);
+      d['attendance'] = +d['attendance'];
+      return d;
+    },draw);
   </script>
 </body>
 </html>
