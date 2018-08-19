@@ -37,6 +37,8 @@
 ehthumbs.db
 Thumbs.db
 
-# Other files #
-###############
+# Other files and directories#
+##############################
+data/
+
 
