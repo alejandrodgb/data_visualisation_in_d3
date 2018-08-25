@@ -16,6 +16,12 @@
             stroke-width: 0.7;
             opacity: 0.5;
         }
+        .route {
+            fill: none;
+            stroke: black;
+            stroke-width: 1px;
+            stroke-linecap: round;
+            }
     </style>
     <script type="text/javascript">  
         function draw(geo_data) {
@@ -45,50 +51,10 @@
                         .style('fill', 'lightBlue')
                         .style('stroke', 'black')
                         .style('stroke-width', 0.5);
+        
             
             function plot_points(data) {
-                function agg_year(leaves) {
-                    var orig_coords = leaves.map(function (d) {
-                        return projection([+d.long_Origin, +d.lat_Origin]);
-                    });
-
-                    var dest_coords = leaves.map(function (d) {
-                        return projection([+d.long_Dest, +d.lat_Dest]);
-                    });
-
-                    var origin_x = d3.mean(orig_coords, function(d) {
-                        return d[0];
-                    });
-
-                    var origin_y = d3.mean(orig_coords, function(d) {
-                        return d[1];
-                    });
-                    
-                    var dest_x = d3.mean(dest_coords, function(d) {
-                        return d[0];
-                    });
-                    
-                    var dest_y = d3.mean(dest_coords, function(d) {
-                        return d[1];
-                    });
-
-                    return {
-                        'origin_x' : orig_coords,
-                        'origin_y' : orig_coords,
-                        'dest_x' : dest_x,
-                        'dest_y' : dest_y
-                    };
-                }
-
-                var nested = d3.nest()
-                               .key(function(d){
-                                   return d['DepDateTime'].getUTCDay();
-                               })
-                               .rollup(agg_year)
-                               .entries(data)
-                
-                //debugger;
-                
+                              
                 svg.append('g')
                    .attr('class','bubble')
                    .selectAll('circle')
@@ -111,6 +77,17 @@
                    .attr('r',5)
                    .attr('class','dest_circle');
 
+                svg.append('g')
+                   .attr('class','route')
+                   .selectAll()
+                
+                /*
+                var route = svg.append("path")
+                            .datum({type: "LineString", coordinates: [[-77.05, 38.91], [-116.35, 40.91]]})
+                            .attr("class", "route")
+                            .attr("d", path);
+                */
+               
             }
 
         var format = d3.time.format('%Y-%m-%d')
