@@ -78,8 +78,14 @@
                 var arr_scale = d3.scale.sqrt()
                                         .range([3, 8])
                                         .domain(arr_range);
-                
-                var paths=[];
+
+                function flight_paths(origin, destination) {
+                    svg.append('path')
+                       .datum({type: 'LineString',
+                               coordinates:[origin, destination]})
+                       .attr('class','route')
+                       .attr('d',path);
+                }
 
                 svg.append('g')
                    .attr('class','bubble')
@@ -91,9 +97,13 @@
                    .attr('cy', function(d) {return projection([+d.long_Origin, +d.lat_Origin])[1]; })
                    .attr('r',5)
                    .attr('class','origin_circle')
-                   .each(function(d) {
-                       paths.push([[+d.long_Origin, +d.lat_Origin],[+d.long_Dest,+d.lat_Dest]])
-                    });
+                   .each(function(d){
+                        svg.append('path')
+                           .datum({type: 'LineString',
+                               coordinates:[[+d.long_Origin, +d.lat_Origin],[+d.long_Dest,+d.lat_Dest]]})
+                           .attr('class','route')
+                           .attr('d',path);
+                   })
                 
                 svg.append('g')
                    .attr('class','bubble')
@@ -106,14 +116,6 @@
                    .attr('r',5)
                    .attr('class','dest_circle');
                 debugger;
-                
-                paths.forEach(function(d){
-                    svg.append('path')
-                       .datum({type: 'LineString',
-                               coordinates:d})
-                       .attr('class','route')
-                       .attr('d',path)
-                });
          
             }
 
