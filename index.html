@@ -7,19 +7,19 @@
         .origin_circle {
             fill: black;
             stroke: black;
-            stroke-width: 0.7;
-            opacity: 0.5;
+            stroke-width: 0.1;
+            opacity: 0.7;
         }
         .dest_circle {
-            fill: whitesmoke;
+            fill: red;
             stroke: black;
-            stroke-width: 0.7;
-            opacity: 0.5;
+            stroke-width: 0.1;
+            opacity: 0.7;
         }
         .route {
             fill: none;
             stroke: black;
-            stroke-width: 1px;
+            stroke-width: 0.5px;
             stroke-linecap: round;
             }
     </style>
@@ -38,8 +38,8 @@
                 .attr('class', 'map');
 
             var projection = d3.geo.mercator()
-                                .scale(400)
-                                .translate([width/.95, height/0.7]);
+                                .scale(800)
+                                .translate([width/.65, height/0.6]);
             
             var path = d3.geo.path().projection(projection);
 
@@ -54,7 +54,33 @@
         
             
             function plot_points(data) {
-                              
+
+                // Find range of delays
+                var dep_range = [d3.min(data, function(d){
+                                                    return +d.DepDelay;
+                                                }),
+                                    d3.max(data, function(d) {
+                                                    return +d.DepDelay;
+                                                })];
+
+                var arr_range = [d3.min(data, function(d){
+                                                    return +d.ArrDelay;
+                                                }),
+                                    d3.max(data, function(d) {
+                                                    return +d.ArrDelay;
+                                                })];
+
+                // Create radius scale
+                var dep_scale = d3.scale.sqrt()
+                                        .range([3, 8])
+                                        .domain(dep_range);
+
+                var arr_scale = d3.scale.sqrt()
+                                        .range([3, 8])
+                                        .domain(arr_range);
+                
+                var paths=[];
+
                 svg.append('g')
                    .attr('class','bubble')
                    .selectAll('circle')
@@ -64,7 +90,10 @@
                    .attr('cx', function(d) {return projection([+d.long_Origin, +d.lat_Origin])[0]; })
                    .attr('cy', function(d) {return projection([+d.long_Origin, +d.lat_Origin])[1]; })
                    .attr('r',5)
-                   .attr('class','origin_circle');
+                   .attr('class','origin_circle')
+                   .each(function(d) {
+                       paths.push([[+d.long_Origin, +d.lat_Origin],[+d.long_Dest,+d.lat_Dest]])
+                    });
                 
                 svg.append('g')
                    .attr('class','bubble')
@@ -76,18 +105,16 @@
                    .attr('cy', function(d) {return projection([+d.long_Dest, +d.lat_Dest])[1]; })
                    .attr('r',5)
                    .attr('class','dest_circle');
-
-                svg.append('g')
-                   .attr('class','route')
-                   .selectAll()
+                debugger;
                 
-                /*
-                var route = svg.append("path")
-                            .datum({type: "LineString", coordinates: [[-77.05, 38.91], [-116.35, 40.91]]})
-                            .attr("class", "route")
-                            .attr("d", path);
-                */
-               
+                paths.forEach(function(d){
+                    svg.append('path')
+                       .datum({type: 'LineString',
+                               coordinates:d})
+                       .attr('class','route')
+                       .attr('d',path)
+                });
+         
             }
 
         var format = d3.time.format('%Y-%m-%d')
@@ -102,11 +129,11 @@
   </head>
 <body>
   <script type="text/javascript">
-  /*
+    /*
     Use D3 to load the GeoJSON file
     */
     
-d3.json("data/usa.json", draw);
+    d3.json("data/usa.json", draw);
   </script>
 </body>
 </html>
