@@ -79,14 +79,6 @@
                                         .range([3, 8])
                                         .domain(arr_range);
 
-                function flight_paths(origin, destination) {
-                    svg.append('path')
-                       .datum({type: 'LineString',
-                               coordinates:[origin, destination]})
-                       .attr('class','route')
-                       .attr('d',path);
-                }
-
                 svg.append('g')
                    .attr('class','bubble')
                    .selectAll('circle')
