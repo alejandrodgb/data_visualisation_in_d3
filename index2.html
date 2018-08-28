@@ -2,7 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>
+  <script src="lib/underscore-min.js" type="text/javascript"></script>
     <style>
         .origin_circle {
             fill: black;
@@ -19,7 +20,7 @@
         .route {
             fill: none;
             stroke: black;
-            stroke-width: 0.5px;
+            stroke-width: 1px;
             stroke-linecap: round;
             }
     </style>
@@ -79,36 +80,49 @@
                                         .range([3, 8])
                                         .domain(arr_range);
 
-                // aggregate flights by month
-                function agg_month(leaves) {
-                //debugger;
-                    var orig_proj_coords = leaves.map(function(d) {
-                        return projection([+d.long_Origin,+d.lat_Origin])
+                function aggregation(leaves){
+                    
+                    var origin_coords = leaves.map(function(d) {
+                        return projection([+d.long_Origin, +d.lat_Origin]);
+                    });                 
+                    
+                    var mean_long_origin = d3.mean(origin_coords, function(d){
+                        return d[0]
                     });
-                    //debugger;
-                    var dest_proj_coords = leaves.map(function (d) {
-                        return projection([+d.long_Dest,+d.lat_Dest])
+                    
+                    var mean_lat_origin = d3.mean(origin_coords, function(d){
+                        return d[1]
                     });
-                    //debugger;
+                    
+                    var dest_coords = leaves.map(function(d) {
+                        return projection([+d.long_Dest, +d.lat_Dest]);
+                    });
+                    
+                    var mean_long_dest = d3.mean(dest_coords, function(d){
+                        return d[0]
+                    });
+                    
+                    var mean_lat_dest = d3.mean(dest_coords, function(d){
+                        return d[1]
+                    });
+                    
                     var dep_delays = leaves.map(function(d){
                         return +d.DepDelay
                     });
-                    //debugger;
+                    
                     var arr_delays = leaves.map(function(d) {
                         return +d.ArrDelay
                     });
-
-                    //debugger;
+                    
                     var mean_dep_delay = d3.mean(dep_delays);
-                    //debugger;
+                    
                     var mean_arr_delay = d3.mean(arr_delays);
-                    //debugger;
+
                     return {
-                        'orig_proj_coords' : orig_coords,
-                        'dest_proj_coords' : dest_coords,
-                        'flight_path_coords' : flight_path,
-                        'mean_dep_delay' : mean_dep_delay,
-                        'mean_arr_delay' : mean_arr_delay
+                        'origin_coords' : [mean_long_origin, mean_lat_origin],
+                        'dest_coords' : [mean_long_dest, mean_lat_dest],
+                        'dep_delay' : mean_dep_delay,
+                        'arr_delay' : mean_arr_delay
                     };
                 }
 
@@ -119,22 +133,14 @@
                                .key(function(d){
                                    return d.airport_Origin
                                })
-                               //.rollup(agg_month)
+                               .rollup(aggregation)
                                .entries(data)
                 
-                debugger;
-
-
                 svg.append('g')
-                   .attr('class','bubble')
-                   .selectAll('circle')
+                   .selectAll('path')
                    .data(data)
                    .enter()
-                   .append('circle')
-                   .attr('cx', function(d) {return projection([+d.long_Origin, +d.lat_Origin])[0]; })
-                   .attr('cy', function(d) {return projection([+d.long_Origin, +d.lat_Origin])[1]; })
-                   .attr('r',5)
-                   .attr('class','origin_circle')
+                   .append('path')
                    .each(function(d){
                         svg.append('path')
                            .datum({type: 'LineString',
@@ -142,20 +148,21 @@
                            .attr('class','route')
                            .attr('d',path);
                    })
-                   
                 
                 svg.append('g')
-                   .attr('class','bubble')
-                   .selectAll('circle')
-                   .data(data)
-                   .enter()
-                   .append('circle')
-                   .attr('cx', function(d) {return projection([+d.long_Dest, +d.lat_Dest])[0]; })
-                   .attr('cy', function(d) {return projection([+d.long_Dest, +d.lat_Dest])[1]; })
-                   .attr('r',5)
-                   .attr('class','dest_circle');
-                debugger;
-         
+                    .attr('class','bubble')
+                    .selectAll('circle')
+                    .data(nested)
+                    .enter()
+                    .append('circle')
+                    .attr('cx', function(d,i) {
+                        return d.values[i].values.origin_coords[0]; 
+                        })
+                    .attr('cy', function(d,i) {
+                        return d.values[i].values.origin_coords[1]; 
+                        })
+                    .attr('r',5)
+                    .attr('class','dest_circle');
             }
 
         var format = d3.time.format('%Y-%m-%d')
